@@ -104,17 +104,28 @@
         right: -100%;
         height: 100vh;
         width: 100%;
-        background: rgba(10, 10, 10, 0.98);
-        /* Slightly more opaque */
-        backdrop-filter: blur(15px);
+        background: rgba(0, 0, 0, 0.95);
+        /* Deep black for contrast */
+        backdrop-filter: blur(20px);
+        /* Stronger blur */
         flex-direction: column;
-        justify-content: flex-start;
-        /* Prevent clipping */
+        justify-content: center;
+        /* Center vertically again since we are making it smaller */
         transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        padding: 8rem 2rem 2rem;
+        padding: 2rem;
+        /* Reduced padding */
         z-index: 999;
         overflow-y: auto;
-        /* Allow scrolling */
+        /* Hide Scrollbar */
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
     }
 
     .nav-links.active {
@@ -122,14 +133,46 @@
     }
 
     .nav-links a {
-        font-size: 1.5rem;
-        margin: 0.8rem 0;
-        /* Reduced margin */
+        font-size: 1.4rem;
+        /* Smaller, elegant size */
+        margin: 0.6rem 0;
+        /* Tighter spacing */
+        font-family: var(--font-serif);
+        /* Switch to Serif for Menu Items (Premium feel) */
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideIn 0.5s forwards;
+    }
+
+    /* Staggered animation for menu items */
+    .nav-links.active a:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .nav-links.active a:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .nav-links.active a:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .nav-links.active a:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .nav-links.active a:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .nav-links.active a:nth-child(6) {
+        animation-delay: 0.6s;
     }
 
     .logo-img {
-        height: 45px;
-        /* Smaller logo on mobile */
+        height: 40px;
+        /* Refined logo size */
     }
 
     .book-btn {
@@ -141,14 +184,35 @@
         background: var(--color-gold);
         color: var(--color-black);
         border: none;
-        padding: 1rem 3rem;
+        padding: 0.8rem 2rem;
+        /* Smaller button padding */
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-top: 2rem;
+        /* More space above button */
         text-decoration: none;
         text-align: center;
         width: 100%;
-        max-width: 300px;
+        max-width: 250px;
+        /* Full width */
+        font-family: var(--font-sans);
+        border-radius: 2px;
+        /* Slight rounding or keep sharp */
+        font-size: 0.9rem;
+        /* Smaller text */
+        /* Animation for button too */
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideIn 0.5s forwards 0.7s;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
