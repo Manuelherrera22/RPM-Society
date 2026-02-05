@@ -31,12 +31,12 @@ const Navbar = ({ onBookNow }) => {
                 </Link>
 
                 <div className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
-                    <Link to="/">Home</Link>
-                    <Link to="/fleet">Fleet</Link>
-                    <Link to="/services">Services</Link>
-                    <Link to="/about">About</Link>
-                    <Link to="/blog">Blog</Link>
-                    <Link to="/contact">Contact</Link>
+                    <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+                    <Link to="/fleet" onClick={() => setIsMobileMenuOpen(false)}>Fleet</Link>
+                    <Link to="/services" onClick={() => setIsMobileMenuOpen(false)}>Services</Link>
+                    <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+                    <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
+                    <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
                     <a href="tel:+17872253222" className="book-btn-mobile">Call to Book</a>
                 </div>
 

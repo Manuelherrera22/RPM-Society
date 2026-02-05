@@ -1,0 +1,30 @@
+.about-page {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    min-height: 80vh;
+    background: var(--color-black);
+    color: var(--color-white);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-text {
+    margin-top: 2rem;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: var(--color-gray-light);
+}
+
+@media (max-width: 768px) {
+    .about-page {
+        padding-top: 6rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .about-text {
+        font-size: 1rem;
+    }
+}

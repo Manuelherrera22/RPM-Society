@@ -121,7 +121,26 @@
 }
 
 @media (max-width: 600px) {
+    .blog-page {
+        padding-top: 6rem;
+        padding-bottom: 2rem;
+    }
+
     .blog-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1.5rem;
+    }
+
+    .blog-header {
+        padding: 0 1rem;
+    }
+
+    .blog-image {
+        height: 200px;
+    }
+
+    .blog-content {
+        padding: 1.5rem;
     }
 }

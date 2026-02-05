@@ -179,7 +179,22 @@
 }
 
 @media (max-width: 768px) {
+    .fleet-section {
+        padding: 4rem 1.5rem;
+        /* Reduced padding */
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+    }
+
     .fleet-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .car-card {
+        margin: 0 auto;
+        max-width: 400px;
     }
 }

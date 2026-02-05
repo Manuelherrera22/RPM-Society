@@ -3,7 +3,8 @@ import Services from '../components/Services';
 
 const ServicesPage = () => {
     return (
-        <div style={{ paddingTop: '6rem', minHeight: '100vh', background: 'var(--color-black)' }}>
+        <div style={{ paddingTop: '0', minHeight: '100vh', background: 'var(--color-black)' }}>
+            {/* Component has its own padding, just need container bg */}
             <Services />
         </div>
     );
