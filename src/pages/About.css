@@ -1,30 +1,134 @@
 .about-page {
-    padding-top: 8rem;
-    padding-bottom: 4rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    min-height: 80vh;
-    background: var(--color-black);
+    padding: 120px 20px 60px;
+    background-color: var(--color-black);
     color: var(--color-white);
-    max-width: 1000px;
-    margin: 0 auto;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.about-hero {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.gold-text {
+    color: var(--color-gold);
 }
 
 .about-text {
-    margin-top: 2rem;
-    line-height: 1.8;
     font-size: 1.1rem;
-    color: var(--color-gray-light);
+    line-height: 1.8;
+    color: #ccc;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Inspection Guarantee Section */
+.inspection-guarantee-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.section-subtitle {
+    color: var(--color-gold);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.section-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    color: #ddd;
+    font-size: 1.1rem;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.process-card {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 3px solid var(--color-gold);
+}
+
+.process-card h3 {
+    color: var(--color-white);
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.process-card p {
+    color: #aaa;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.process-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.process-card ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: #ddd;
+}
+
+.process-card ul li::before {
+    content: "•";
+    color: var(--color-gold);
+    position: absolute;
+    left: 0;
+}
+
+.owner-benefit {
+    text-align: center;
+    background: linear-gradient(45deg, rgba(212, 175, 55, 0.1), transparent);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.owner-benefit h3 {
+    color: var(--color-gold);
+    margin-bottom: 10px;
+}
+
+.owner-benefit p {
+    color: #eee;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-    .about-page {
-        padding-top: 6rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+    .section-title {
+        font-size: 2rem;
     }
 
-    .about-text {
-        font-size: 1rem;
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .inspection-guarantee-section {
+        padding: 20px;
     }
 }

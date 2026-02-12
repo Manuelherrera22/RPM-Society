@@ -37,6 +37,16 @@ const Footer = () => {
                     </div>
                 </div>
 
+                <div className="footer-links">
+                    <h3>Legal & Staff</h3>
+                    <ul>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/inspection" style={{ color: '#555', fontSize: '0.8rem' }}>Staff Inspection</a></li>
+                        <li><a href="/admin" style={{ color: '#555', fontSize: '0.8rem' }}>Admin Portal</a></li>
+                    </ul>
+                </div>
+
                 <div className="footer-social">
                     <h3>Follow Us</h3>
                     <div className="social-icons">

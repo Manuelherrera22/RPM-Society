@@ -1,10 +1,42 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react';
+import SEO from '../components/SEO';
 import './Contact.css';
 
+import { supabase } from '../supabaseClient';
+
 const Contact = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const contactData = {
+            full_name: formData.get('fullName'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message')
+        };
+
+        try {
+            const { error } = await supabase
+                .from('contacts')
+                .insert([contactData]);
+
+            if (error) throw error;
+
+            alert('Message sent successfully! Our concierge will request to you shortly.');
+            e.target.reset();
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            alert('Failed to send message. Please try again later.');
+        }
+    };
+
     return (
         <div className="contact-page">
+            <SEO
+                title="Contact Us"
+                description="Get in touch with RPM Society for inquiries, private concierge services, or press relations."
+            />
             <div className="contact-container">
                 <div className="contact-info">
                     <h1>Get in <span className="gold-text">Touch</span></h1>
@@ -48,25 +80,25 @@ const Contact = () => {
 
                 <div className="contact-form-container">
                     <h2>Send a Message</h2>
-                    <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+                    <form className="contact-form" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label>Full Name</label>
-                            <input type="text" placeholder="Enter your name" />
+                            <input type="text" name="fullName" placeholder="Enter your name" required />
                         </div>
 
                         <div className="form-group">
                             <label>Email Address</label>
-                            <input type="email" placeholder="Enter your email" />
+                            <input type="email" name="email" placeholder="Enter your email" required />
                         </div>
 
                         <div className="form-group">
                             <label>Subject</label>
-                            <input type="text" placeholder="Inquiry regarding..." />
+                            <input type="text" name="subject" placeholder="Inquiry regarding..." />
                         </div>
 
                         <div className="form-group">
                             <label>Message</label>
-                            <textarea rows="5" placeholder="How can we assist you today?"></textarea>
+                            <textarea name="message" rows="5" placeholder="How can we assist you today?" required></textarea>
                         </div>
 
                         <button type="submit" className="send-btn">
