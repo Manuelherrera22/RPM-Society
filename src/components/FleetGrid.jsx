@@ -14,11 +14,14 @@ const fleet = [
         id: 1,
         name: "Cadillac Escalade 2026",
         brand: "Cadillac",
-        price: "1,500", // Estimation/Placeholder
+        price: "400",
         speed: "4.4s",
         power: "682 HP",
         image: cadillac,
-        hidden: false
+        hidden: false,
+        mileage: "100 miles included",
+        extraMile: "$3.00/mile",
+        deposit: "$1,000 deposit"
     },
     {
         id: 2,
@@ -116,6 +119,14 @@ const FleetGrid = ({ limit }) => {
                                     <span>{car.power}</span>
                                 </div>
                             </div>
+
+                            {!car.hidden && car.mileage && (
+                                <div className="extra-details" style={{ fontSize: '0.8rem', color: '#888', marginBottom: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.5rem' }}>
+                                    <p>{car.mileage}</p>
+                                    <p>Addt'l mile: {car.extraMile}</p>
+                                    <p>Security Deposit: {car.deposit}</p>
+                                </div>
+                            )}
 
                             <div className="card-footer">
                                 <span className="details-link">View Details <ArrowUpRight size={16} /></span>
