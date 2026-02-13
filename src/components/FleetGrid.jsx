@@ -12,16 +12,16 @@ import cadillac from '../assets/hero-cadillac.jpg';
 const fleet = [
     {
         id: 1,
-        name: "Cadillac Escalade 2026",
+        name: "Cadillac Escalade ESV 2026",
         brand: "Cadillac",
         price: "400",
-        speed: "4.4s",
-        power: "682 HP",
+        speed: "5.9s",
+        power: "420 HP",
         image: cadillac,
         hidden: false,
         mileage: "100 miles included",
         extraMile: "$3.00",
-        deposit: "1,000 security deposit"
+        deposit: "$1,000 security deposit"
     },
     {
         id: 2,
