@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import './Hero.css';
-import heroImage from '../assets/hero-cadillac.png';
+import heroImage from '../assets/hero-cadillac.jpg';
 import { Link } from 'react-router-dom';
 
 const Hero = ({ onBookNow }) => {

@@ -7,7 +7,7 @@ import mclaren from '../assets/mclaren.png';
 import porsche from '../assets/porsche.png';
 import rolls from '../assets/rolls.png';
 import aston from '../assets/aston.png';
-import cadillac from '../assets/hero-cadillac.png';
+import cadillac from '../assets/hero-cadillac.jpg';
 
 const fleet = [
     {
