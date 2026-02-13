@@ -50,6 +50,7 @@ const Contact = () => {
                         </div>
                         <div className="info-content">
                             <h3>Private Concierge</h3>
+                            <p className="primary-phone" style={{ fontWeight: 'bold', color: '#d4af37' }}>+1 (360) 932-0132</p>
                             <p>+1 (787) 225-3222</p>
                             <p style={{ fontSize: '0.9rem', opacity: 0.7, marginTop: '0.2rem' }}>Available 24/7 for members</p>
                         </div>
@@ -61,8 +62,8 @@ const Contact = () => {
                         </div>
                         <div className="info-content">
                             <h3>Email Inquiries</h3>
+                            <p>Rpmsociety07@gmail.com</p>
                             <p>concierge@rpmsociety.com</p>
-                            <p>press@rpmsociety.com</p>
                         </div>
                     </div>
 

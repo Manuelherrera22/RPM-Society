@@ -11,57 +11,63 @@ import aston from '../assets/aston.png';
 const fleet = [
     {
         id: 1,
-        name: "Lamborghini Revuelto",
-        brand: "Lamborghini",
-        price: "2,500",
-        speed: "2.5s",
-        power: "1001 HP",
-        image: lamborghini
+        name: "Cadillac Escalade 2026",
+        brand: "Cadillac",
+        price: "1,500", // Estimation/Placeholder
+        speed: "4.4s",
+        power: "682 HP",
+        image: "/Cadillac Escalade 2026.png", // Direct reference to public folder
+        hidden: false
     },
     {
         id: 2,
-        name: "Ferrari SF90 Stradale",
-        brand: "Ferrari",
-        price: "2,800",
-        speed: "2.5s",
-        power: "986 HP",
-        image: ferrari
+        name: "Próximamente",
+        brand: "Secret",
+        price: "---",
+        speed: "---",
+        power: "---",
+        image: ferrari,
+        hidden: true
     },
     {
         id: 3,
-        name: "McLaren 765LT",
-        brand: "McLaren",
-        price: "2,200",
-        speed: "2.7s",
-        power: "755 HP",
-        image: mclaren
+        name: "Próximamente",
+        brand: "Secret",
+        price: "---",
+        speed: "---",
+        power: "---",
+        image: mclaren,
+        hidden: true
     },
     {
         id: 4,
-        name: "Porsche 911 GT3 RS",
-        brand: "Porsche",
-        price: "1,800",
-        speed: "3.0s",
-        power: "518 HP",
-        image: porsche
+        name: "Próximamente",
+        brand: "Secret",
+        price: "---",
+        speed: "---",
+        power: "---",
+        image: porsche,
+        hidden: true
     },
     {
         id: 5,
-        name: "Rolls Royce Spectre",
-        brand: "Rolls Royce",
-        price: "3,000",
-        speed: "4.4s",
-        power: "577 HP",
-        image: rolls
+        name: "Próximamente",
+        brand: "Secret",
+        price: "---",
+        speed: "---",
+        power: "---",
+        image: rolls,
+        hidden: true
     },
     {
         id: 6,
-        name: "Aston Martin Valhalla",
-        brand: "Aston Martin",
-        price: "3,500",
-        speed: "2.5s",
-        power: "937 HP",
-        image: aston
+        name: "Próximamente",
+        brand: "Secret",
+        price: "---",
+        speed: "---",
+        power: "---",
+        image: aston,
+        hidden: true
     }
 ];
 
@@ -78,10 +84,14 @@ const FleetGrid = ({ limit }) => {
             <div className="fleet-grid">
                 {displayFleet.map((car) => (
                     <div key={car.id} className="car-card">
-                        <div className="card-image">
+                        <div className={`card-image ${car.hidden ? 'blur-effect' : ''}`}>
                             <img src={car.image} alt={car.name} />
                             <div className="card-overlay">
-                                <a href="tel:+17872253222" className="book-btn-card">Call to Reserve</a>
+                                {car.hidden ? (
+                                    <span className="book-btn-card">Locked</span>
+                                ) : (
+                                    <a href="tel:+17872253222" className="book-btn-card">Call to Reserve</a>
+                                )}
                             </div>
                         </div>
 

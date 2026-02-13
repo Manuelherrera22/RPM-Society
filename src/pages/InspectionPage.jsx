@@ -16,6 +16,9 @@ const InspectionPage = () => {
     });
     const sigPad = useRef({});
 
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [passcode, setPasscode] = useState('');
+
     const steps = [
         { id: 'start', title: 'Inspection Start' },
         { id: 'front', title: 'Exterior - Front' },
@@ -61,7 +64,6 @@ const InspectionPage = () => {
         const { error } = await supabase.from('inspections').select('count', { count: 'exact', head: true });
         if (error) {
             console.error("Database check failed:", error);
-            alert("Error connecting to database. check console.");
         } else {
             console.log("Database connection successful");
         }
@@ -250,6 +252,38 @@ const InspectionPage = () => {
                 );
         }
     };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="inspection-login" style={{
+                height: '80vh',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#111',
+                color: '#fff'
+            }}>
+                <h2>Staff Access Only</h2>
+                <input
+                    type="password"
+                    value={passcode}
+                    onChange={(e) => setPasscode(e.target.value)}
+                    placeholder="Enter Security Code"
+                    style={{ padding: '10px 20px', marginTop: '20px', borderRadius: '5px', border: '1px solid #333', backgroundColor: '#222', color: 'white', outline: 'none' }}
+                />
+                <button
+                    onClick={() => {
+                        if (passcode === 'RPM2026') setIsAuthenticated(true);
+                        else alert('Access Denied');
+                    }}
+                    style={{ marginTop: '20px', padding: '10px 30px', background: '#e11d48', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
+                >
+                    Access
+                </button>
+            </div>
+        )
+    }
 
     return (
         <div className="inspection-page">

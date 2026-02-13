@@ -29,11 +29,14 @@ const Footer = () => {
                     </div>
                     <div className="contact-item">
                         <Phone size={18} />
-                        <span>+1 (787) 225-3222</span>
+                        <div>
+                            <span style={{ display: 'block' }}>+1 (360) 932-0132</span>
+                            <span style={{ fontSize: '0.9em', opacity: 0.8 }}>+1 (787) 225-3222</span>
+                        </div>
                     </div>
                     <div className="contact-item">
                         <Mail size={18} />
-                        <span>concierge@rpmsociety.com</span>
+                        <span>Rpmsociety07@gmail.com</span>
                     </div>
                 </div>
 
@@ -42,8 +45,6 @@ const Footer = () => {
                     <ul>
                         <li><a href="/terms">Terms of Service</a></li>
                         <li><a href="/privacy">Privacy Policy</a></li>
-                        <li><a href="/inspection" style={{ color: '#555', fontSize: '0.8rem' }}>Staff Inspection</a></li>
-                        <li><a href="/admin" style={{ color: '#555', fontSize: '0.8rem' }}>Admin Portal</a></li>
                     </ul>
                 </div>
 
@@ -57,8 +58,42 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="footer-bottom">
+            <div className="footer-bottom" style={{ position: 'relative' }}>
                 <p>&copy; 2024 RPM Society. All rights reserved.</p>
+
+                {/* Secret Admin Button (Bottom Right) */}
+                <a
+                    href="/admin"
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                        width: '50px',
+                        height: '50px',
+                        opacity: 0,
+                        cursor: 'default', // Hide cursor pointer to be extra secret
+                        zIndex: 10
+                    }}
+                    aria-hidden="true"
+                    title=""
+                />
+
+                {/* Secret Inspection Button (Bottom Left) */}
+                <a
+                    href="/inspection"
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: '50px',
+                        height: '50px',
+                        opacity: 0,
+                        cursor: 'default',
+                        zIndex: 10
+                    }}
+                    aria-hidden="true"
+                    title=""
+                />
             </div>
         </footer>
     );
