@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Facebook, Twitter, MapPin, Mail, Phone } from 'lucide-react';
+import { Instagram, Facebook, Twitter, MapPin, Mail, Phone, Shield, Camera } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
@@ -66,34 +66,38 @@ const Footer = () => {
                     href="/admin"
                     style={{
                         position: 'absolute',
-                        bottom: 0,
-                        right: 0,
-                        width: '50px',
-                        height: '50px',
-                        opacity: 0,
-                        cursor: 'default', // Hide cursor pointer to be extra secret
+                        bottom: '20px',
+                        right: '20px',
+                        color: 'var(--color-gold)',
+                        opacity: 0.3,
+                        transition: 'opacity 0.3s ease',
                         zIndex: 10
                     }}
-                    aria-hidden="true"
-                    title=""
-                />
+                    title="Admin"
+                    onMouseEnter={(e) => e.target.style.opacity = '1'}
+                    onMouseLeave={(e) => e.target.style.opacity = '0.3'}
+                >
+                    <Shield size={20} />
+                </a>
 
                 {/* Secret Inspection Button (Bottom Left) */}
                 <a
                     href="/inspection"
                     style={{
                         position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        width: '50px',
-                        height: '50px',
-                        opacity: 0,
-                        cursor: 'default',
+                        bottom: '20px',
+                        left: '20px',
+                        color: 'var(--color-gold)',
+                        opacity: 0.3,
+                        transition: 'opacity 0.3s ease',
                         zIndex: 10
                     }}
-                    aria-hidden="true"
-                    title=""
-                />
+                    title="Staff Inspection"
+                    onMouseEnter={(e) => e.target.style.opacity = '1'}
+                    onMouseLeave={(e) => e.target.style.opacity = '0.3'}
+                >
+                    <Camera size={20} />
+                </a>
             </div>
         </footer>
     );
