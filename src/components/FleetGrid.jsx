@@ -7,6 +7,7 @@ import mclaren from '../assets/mclaren.png';
 import porsche from '../assets/porsche.png';
 import rolls from '../assets/rolls.png';
 import aston from '../assets/aston.png';
+import cadillac from '../assets/hero-cadillac.png';
 
 const fleet = [
     {
@@ -16,7 +17,7 @@ const fleet = [
         price: "1,500", // Estimation/Placeholder
         speed: "4.4s",
         power: "682 HP",
-        image: "/Cadillac Escalade 2026.png", // Direct reference to public folder
+        image: cadillac,
         hidden: false
     },
     {
