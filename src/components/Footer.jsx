@@ -51,8 +51,8 @@ const Footer = () => {
                 <div className="footer-social">
                     <h3>Follow Us</h3>
                     <div className="social-icons">
-                        <a href="#"><Instagram size={24} /></a>
-                        <a href="#"><Facebook size={24} /></a>
+                        <a href="https://www.instagram.com/rpmsociety07?igsh=MWg1YzRwaHF6M3lrNg%3D%3D" target="_blank" rel="noopener noreferrer"><Instagram size={24} /></a>
+                        <a href="https://www.facebook.com/profile.php?id=61587341997201&ref=PROFILE_EDIT_xav_ig_profile_page_web#" target="_blank" rel="noopener noreferrer"><Facebook size={24} /></a>
                         <a href="#"><Twitter size={24} /></a>
                     </div>
                 </div>
