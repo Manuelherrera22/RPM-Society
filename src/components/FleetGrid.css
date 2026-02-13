@@ -204,3 +204,113 @@
         max-width: 400px;
     }
 }
+
+/* Elegant Design Updates */
+.card-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.price-section {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--color-white);
+}
+
+.currency {
+    font-size: 1rem;
+    vertical-align: top;
+    margin-right: 2px;
+    color: var(--color-gold);
+}
+
+.price-value {
+    font-size: 1.8rem;
+    font-weight: 300;
+    /* Thin font */
+    letter-spacing: 1px;
+}
+
+.price-period {
+    font-size: 0.8rem;
+    color: var(--color-gray-light);
+    margin-left: 2px;
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.3), transparent);
+    margin: 1rem auto;
+    width: 60%;
+}
+
+.specs-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.spec-icon-gold {
+    color: var(--color-gold);
+    opacity: 0.8;
+}
+
+.spec-label {
+    font-size: 0.75rem;
+    color: var(--color-gray-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rental-terms {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.term-row {
+    margin-top: 0.2rem;
+}
+
+.card-footer-centered {
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+}
+
+.view-details-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-white);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.view-details-link:hover {
+    color: var(--color-gold);
+    gap: 0.8rem;
+    /* Slide arrow effect */
+}
+
+.locked-content {
+    text-align: center;
+    padding: 2rem 0;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+    font-size: 0.9rem;
+}

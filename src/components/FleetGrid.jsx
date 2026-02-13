@@ -20,12 +20,12 @@ const fleet = [
         image: cadillac,
         hidden: false,
         mileage: "100 miles included",
-        extraMile: "$3.00/mile",
-        deposit: "$1,000 deposit"
+        extraMile: "$3.00",
+        deposit: "1,000 security deposit"
     },
     {
         id: 2,
-        name: "Próximamente",
+        name: "Coming Soon",
         brand: "Secret",
         price: "---",
         speed: "---",
@@ -35,7 +35,7 @@ const fleet = [
     },
     {
         id: 3,
-        name: "Próximamente",
+        name: "Coming Soon",
         brand: "Secret",
         price: "---",
         speed: "---",
@@ -45,7 +45,7 @@ const fleet = [
     },
     {
         id: 4,
-        name: "Próximamente",
+        name: "Coming Soon",
         brand: "Secret",
         price: "---",
         speed: "---",
@@ -55,7 +55,7 @@ const fleet = [
     },
     {
         id: 5,
-        name: "Próximamente",
+        name: "Coming Soon",
         brand: "Secret",
         price: "---",
         speed: "---",
@@ -65,7 +65,7 @@ const fleet = [
     },
     {
         id: 6,
-        name: "Próximamente",
+        name: "Coming Soon",
         brand: "Secret",
         price: "---",
         speed: "---",
@@ -90,13 +90,11 @@ const FleetGrid = ({ limit }) => {
                     <div key={car.id} className="car-card">
                         <div className={`card-image ${car.hidden ? 'blur-effect' : ''}`}>
                             <img src={car.image} alt={car.name} />
-                            <div className="card-overlay">
-                                {car.hidden ? (
+                            {car.hidden && (
+                                <div className="card-overlay">
                                     <span className="book-btn-card">Locked</span>
-                                ) : (
-                                    <a href="tel:+17872253222" className="book-btn-card">Call to Reserve</a>
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
 
                         <div className="card-content">
@@ -105,32 +103,50 @@ const FleetGrid = ({ limit }) => {
                                 <h3 className="model">{car.name}</h3>
                             </div>
 
-                            <div className="specs-grid">
-                                <div className="spec-item">
-                                    <DollarSign size={16} className="spec-icon" />
-                                    <span>${car.price}/day</span>
-                                </div>
-                                <div className="spec-item">
-                                    <Timer size={16} className="spec-icon" />
-                                    <span>0-60: {car.speed}</span>
-                                </div>
-                                <div className="spec-item">
-                                    <Gauge size={16} className="spec-icon" />
-                                    <span>{car.power}</span>
-                                </div>
-                            </div>
+                            {!car.hidden ? (
+                                <>
+                                    <div className="price-section">
+                                        <span className="currency">$</span>
+                                        <span className="price-value">{car.price}</span>
+                                        <span className="price-period">/day</span>
+                                    </div>
 
-                            {!car.hidden && car.mileage && (
-                                <div className="extra-details" style={{ fontSize: '0.8rem', color: '#888', marginBottom: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.5rem' }}>
-                                    <p>{car.mileage}</p>
-                                    <p>Addt'l mile: {car.extraMile}</p>
-                                    <p>Security Deposit: {car.deposit}</p>
+                                    <div className="divider"></div>
+
+                                    <div className="specs-row">
+                                        <div className="spec-item economy-spec">
+                                            <Timer size={14} className="spec-icon-gold" />
+                                            <span className="spec-label">0-60: {car.speed}</span>
+                                        </div>
+                                        <div className="spec-item power-spec">
+                                            <Gauge size={14} className="spec-icon-gold" />
+                                            <span className="spec-label">{car.power}</span>
+                                        </div>
+                                    </div>
+
+                                    {car.mileage && (
+                                        <div className="rental-terms">
+                                            <p>{car.mileage}</p>
+                                            <div className="term-row">
+                                                <span>Additional mile {car.extraMile}</span>
+                                            </div>
+                                            <div className="term-row">
+                                                <span>{car.deposit}</span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="card-footer-centered">
+                                        <a href="tel:+17872253222" className="view-details-link">
+                                            VIEW DETAILS <ArrowUpRight size={14} />
+                                        </a>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="locked-content">
+                                    <p>Details Coming Soon</p>
                                 </div>
                             )}
-
-                            <div className="card-footer">
-                                <span className="details-link">View Details <ArrowUpRight size={16} /></span>
-                            </div>
                         </div>
                     </div>
                 ))}
