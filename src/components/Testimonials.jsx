@@ -8,7 +8,7 @@ const testimonials = [
         text: "The level of service provided by RPM Society is unparalleled. The Revuelto was in pristine condition and the delivery was seamless.",
         author: "James Sterling",
         role: "CEO, Sterling Tech",
-        location: "Beverly Hills, CA"
+        location: "Sebastian, FL"
     },
     {
         id: 2,

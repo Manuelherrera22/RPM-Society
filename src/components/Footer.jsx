@@ -25,7 +25,7 @@ const Footer = () => {
                     <h3>Contact</h3>
                     <div className="contact-item">
                         <MapPin size={18} />
-                        <span>1234 Luxury Ave, Beverly Hills, CA</span>
+                        <span>241 Faith Terrace, Sebastian FL</span>
                     </div>
                     <div className="contact-item">
                         <Phone size={18} />

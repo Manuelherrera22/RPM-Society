@@ -73,8 +73,7 @@ const Contact = () => {
                         </div>
                         <div className="info-content">
                             <h3>Headquarters</h3>
-                            <p>9465 Wilshire Blvd, Suite 300</p>
-                            <p>Beverly Hills, CA 90212</p>
+                            <p>241 Faith Terrace, Sebastian FL</p>
                         </div>
                     </div>
                 </div>

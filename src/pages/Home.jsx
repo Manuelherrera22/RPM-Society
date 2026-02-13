@@ -12,7 +12,7 @@ const Home = () => {
         <>
             <SEO
                 title="Home"
-                description="Welcome to RPM Society. Rent the world's most exclusive luxury and exotic cars in Beverly Hills."
+                description="Welcome to RPM Society. Rent the world's most exclusive luxury and exotic cars in Sebastian, FL."
             />
             <Hero onBookNow={() => setIsModalOpen(true)} />
             <div className="section-header" style={{ paddingTop: '5rem', background: 'var(--color-black)' }}>

@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords }) => {
     const siteTitle = "RPM Society | Exclusive Car Rentals";
-    const defaultDescription = "Experience the thrill of driving the world's most exclusive fleet. Luxury car rentals in Beverly Hills.";
-    const defaultKeywords = "luxury car rental, exotic cars, beverly hills, lamborghini, ferrari, porsche";
+    const defaultDescription = "Experience the thrill of driving the world's most exclusive fleet. Luxury car rentals in Sebastian, FL.";
+    const defaultKeywords = "luxury car rental, exotic cars, sebastian fl, lamborghini, ferrari, porsche";
 
     return (
         <Helmet>
