@@ -99,8 +99,7 @@ const FleetGrid = ({ limit }) => {
 
                         <div className="card-content">
                             <div className="card-header">
-                                <span className="brand">{car.brand}</span>
-                                <h3 className="model">{car.name}</h3>
+                                <h3 className="model">Cadillac {car.name}</h3>
                             </div>
 
                             {!car.hidden ? (
