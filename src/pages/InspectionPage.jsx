@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import PhotoUpload from '../components/PhotoUpload';
 import SEO from '../components/SEO';
@@ -10,7 +10,7 @@ const InspectionPage = () => {
     const [inspectionData, setInspectionData] = useState({
         type: 'check-in', // or 'check-out'
         vehicleId: '',
-        photos: {},
+        photos: {}, // Structure: { stepId: [ { file, preview, url, timestamp }, ... ] }
         notes: {},
         signature: null
     });
@@ -18,6 +18,11 @@ const InspectionPage = () => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [passcode, setPasscode] = useState('');
+    const [tokenMetadata, setTokenMetadata] = useState(null); // { clientName, vehicleId, tokenId }
+
+    // Sequential Flow State
+    const [inspectionStatus, setInspectionStatus] = useState('pending'); // pending, ready, completed
+    const [lockedType, setLockedType] = useState(null);
 
     const steps = [
         { id: 'start', title: 'Inspection Start' },
@@ -32,13 +37,30 @@ const InspectionPage = () => {
     const currentStep = steps[step];
 
     const handlePhotoSelect = (file, preview) => {
-        setInspectionData(prev => ({
-            ...prev,
-            photos: {
-                ...prev.photos,
-                [currentStep.id]: { file, preview } // Store both file and preview
-            }
-        }));
+        setInspectionData(prev => {
+            const currentPhotos = prev.photos[currentStep.id] || [];
+            return {
+                ...prev,
+                photos: {
+                    ...prev.photos,
+                    [currentStep.id]: [...currentPhotos, { file, preview }]
+                }
+            };
+        });
+    };
+
+    const handleRemovePhoto = (stepId, index) => {
+        setInspectionData(prev => {
+            const currentPhotos = prev.photos[stepId] || [];
+            const newPhotos = currentPhotos.filter((_, i) => i !== index);
+            return {
+                ...prev,
+                photos: {
+                    ...prev.photos,
+                    [stepId]: newPhotos
+                }
+            };
+        });
     };
 
     const handleNoteChange = (e) => {
@@ -56,7 +78,7 @@ const InspectionPage = () => {
 
     const saveSignature = () => {
         if (sigPad.current) {
-            setInspectionData(prev => ({ ...prev, signature: sigPad.current.getTrimmedCanvas().toDataURL('image/png') }));
+            setInspectionData(prev => ({ ...prev, signature: sigPad.current.getCanvas().toDataURL('image/png') }));
         }
     };
 
@@ -69,7 +91,81 @@ const InspectionPage = () => {
         }
     };
 
-    // Call this once on mount to verify connection
+    // Token Validation
+    useEffect(() => {
+        const validateToken = async () => {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+
+            if (token) {
+                // Check token validity
+                const { data, error } = await supabase
+                    .from('access_tokens')
+                    .select('*')
+                    .eq('token', token)
+                    .eq('is_active', true)
+                    .single();
+
+                if (data) {
+                    const now = new Date();
+                    const expiresAt = new Date(data.expires_at);
+
+                    if (now < expiresAt) {
+                        setIsAuthenticated(true);
+
+                        // Check for existing inspections with this token to enforce flow
+                        const { data: existingInspections } = await supabase
+                            .from('inspections')
+                            .select('type')
+                            .eq('linked_token_id', data.id);
+
+                        const hasCheckIn = existingInspections?.some(i => i.type === 'check-in');
+                        const hasCheckOut = existingInspections?.some(i => i.type === 'check-out');
+
+                        if (hasCheckIn && hasCheckOut) {
+                            setInspectionStatus('completed');
+                        } else if (hasCheckIn) {
+                            // Force Check-out
+                            setLockedType('check-out');
+                            setInspectionData(prev => ({
+                                ...prev,
+                                type: 'check-out',
+                                vehicleId: data.metadata?.vehicleId || prev.vehicleId
+                            }));
+                        } else {
+                            // Force Check-in (default)
+                            setLockedType('check-in');
+                            setInspectionData(prev => ({
+                                ...prev,
+                                type: 'check-in',
+                                vehicleId: data.metadata?.vehicleId || prev.vehicleId
+                            }));
+                        }
+
+                        // Store metadata
+                        if (data.metadata) {
+                            setTokenMetadata({
+                                ...data.metadata,
+                                tokenId: data.id
+                            });
+                        }
+
+                        // Clean URL without refresh
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        return;
+                    } else {
+                        alert("This access link has expired.");
+                    }
+                } else {
+                    console.error("Invalid token:", error);
+                }
+            }
+        };
+
+        validateToken();
+    }, []);
+
+    // Database connection check remains separate
     React.useEffect(() => {
         checkDatabaseConnection();
     }, []);
@@ -110,7 +206,6 @@ const InspectionPage = () => {
     };
 
     const handleSubmit = async () => {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const inspectionId = crypto.randomUUID(); // Unique ID for this session
 
         alert("Submitting inspection... uploading photos. Please wait.");
@@ -118,11 +213,24 @@ const InspectionPage = () => {
         try {
             // 1. Upload Photos
             const photoUrls = {};
-            for (const [key, photoData] of Object.entries(inspectionData.photos)) {
-                if (photoData.file) {
-                    const fileName = `${inspectionId}/${key}.jpg`;
-                    const publicUrl = await uploadPhoto(photoData.file, fileName);
-                    photoUrls[key] = publicUrl;
+            // Iterate over each step's photo array
+            for (const [key, photoList] of Object.entries(inspectionData.photos)) {
+                if (Array.isArray(photoList) && photoList.length > 0) {
+                    photoUrls[key] = []; // Initialize array for this step
+                    for (let i = 0; i < photoList.length; i++) {
+                        const photoData = photoList[i];
+                        if (photoData.file) {
+                            // Naming convention: inspectionId/stepId_index.jpg
+                            const fileName = `${inspectionId}/${key}_${i}.jpg`;
+                            const publicUrl = await uploadPhoto(photoData.file, fileName);
+
+                            // Save with timestamp
+                            photoUrls[key].push({
+                                url: publicUrl,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                    }
                 }
             }
 
@@ -139,8 +247,10 @@ const InspectionPage = () => {
                 created_at: new Date(),
                 type: inspectionData.type,
                 vehicle_id: inspectionData.vehicleId,
+                client_name: tokenMetadata?.clientName || null, // Save client name
+                linked_token_id: tokenMetadata?.tokenId || null, // Link to token
                 notes: inspectionData.notes,
-                photos: photoUrls,
+                photos: photoUrls, // stores arrays of objects {url, timestamp} now
                 signature_url: signatureUrl,
                 status: 'submitted'
             }]);
@@ -151,12 +261,13 @@ const InspectionPage = () => {
             // Optionally redirect or reset state
             setStep(0);
             setInspectionData({
-                type: 'check-in',
+                type: lockedType === 'check-in' ? 'check-out' : 'check-in', // Toggle for next test if not strict
                 vehicleId: '',
                 photos: {},
                 notes: {},
                 signature: null
             });
+            window.location.reload(); // Reload to re-validate token and update state
 
         } catch (error) {
             console.error('Error submitting inspection:', error);
@@ -179,19 +290,41 @@ const InspectionPage = () => {
     const renderStepContent = () => {
         switch (currentStep.id) {
             case 'start':
+                if (inspectionStatus === 'completed') {
+                    return (
+                        <div className="step-content" style={{ textAlign: 'center', padding: '40px' }}>
+                            <h2 style={{ color: '#4ade80' }}>All Done!</h2>
+                            <p>Both Check-in and Check-out inspections have been completed for this session.</p>
+                            <p style={{ marginTop: '20px', color: '#888' }}>You can close this window.</p>
+                        </div>
+                    );
+                }
+
                 return (
                     <div className="step-content">
                         <h3>Select Inspection Type</h3>
+
+                        {tokenMetadata && (
+                            <div className="inspection-info-box" style={{ background: '#222', padding: '15px', borderRadius: '5px', marginBottom: '15px', borderLeft: '4px solid #d4af37' }}>
+                                <p style={{ margin: 0, color: '#aaa', fontSize: '0.9rem' }}>Inspection for Client:</p>
+                                <h4 style={{ margin: '5px 0 0', color: 'white' }}>{tokenMetadata.clientName}</h4>
+                            </div>
+                        )}
+
                         <div className="type-buttons">
                             <button
                                 className={`type-btn ${inspectionData.type === 'check-in' ? 'active' : ''}`}
-                                onClick={() => setInspectionData({ ...inspectionData, type: 'check-in' })}
+                                onClick={() => !lockedType && setInspectionData({ ...inspectionData, type: 'check-in' })}
+                                disabled={lockedType && lockedType !== 'check-in'}
+                                style={lockedType && lockedType !== 'check-in' ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
                             >
                                 Check-in (Pick-up)
                             </button>
                             <button
                                 className={`type-btn ${inspectionData.type === 'check-out' ? 'active' : ''}`}
-                                onClick={() => setInspectionData({ ...inspectionData, type: 'check-out' })}
+                                onClick={() => !lockedType && setInspectionData({ ...inspectionData, type: 'check-out' })}
+                                disabled={lockedType && lockedType !== 'check-out'}
+                                style={lockedType && lockedType !== 'check-out' ? { opacity: 0.3, cursor: 'not-allowed' } : {}}
                             >
                                 Check-out (Return)
                             </button>
@@ -202,7 +335,10 @@ const InspectionPage = () => {
                             className="vehicle-input"
                             value={inspectionData.vehicleId}
                             onChange={(e) => setInspectionData({ ...inspectionData, vehicleId: e.target.value })}
+                            readOnly={!!tokenMetadata?.vehicleId} // Lock if came from token
+                            style={tokenMetadata?.vehicleId ? { opacity: 0.7, cursor: 'not-allowed' } : {}}
                         />
+                        {tokenMetadata?.vehicleId && <small style={{ color: '#aaa' }}>Locked by QR Code</small>}
                     </div>
                 );
             case 'review':
@@ -211,14 +347,22 @@ const InspectionPage = () => {
                         <h3>Review Inspection</h3>
                         <div className="review-grid">
                             {Object.keys(inspectionData.photos).map(key => (
-                                <div key={key} className="review-item">
-                                    <strong>{key}:</strong>
-                                    {/* Handle both new object structure and potential old simple string structure if any */}
-                                    <img
-                                        src={inspectionData.photos[key]?.preview || inspectionData.photos[key]}
-                                        alt={key}
-                                        className="review-img"
-                                    />
+                                <div key={key} className="review-section">
+                                    <h4>{steps.find(s => s.id === key)?.title || key}</h4>
+                                    <div className="review-photos-row">
+                                        {inspectionData.photos[key] && inspectionData.photos[key].map((photo, idx) => (
+                                            <img
+                                                key={idx}
+                                                // Handle object vs string format for preview
+                                                src={photo.preview || photo.url || photo}
+                                                alt={`${key} ${idx}`}
+                                                className="review-img-small"
+                                            />
+                                        ))}
+                                    </div>
+                                    {inspectionData.notes[key] && (
+                                        <p className="review-note"><strong>Note:</strong> {inspectionData.notes[key]}</p>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -236,10 +380,30 @@ const InspectionPage = () => {
                     </div>
                 );
             default:
+                const currentPhotos = inspectionData.photos[currentStep.id] || [];
                 return (
                     <div className="step-content">
+                        {/* Photo Gallery Grid */}
+                        <div className="photo-gallery">
+                            {currentPhotos.map((photo, index) => (
+                                <div key={index} className="photo-thumbnail-wrapper">
+                                    <img
+                                        src={photo.preview || photo.url || photo}
+                                        alt={`Upload ${index}`}
+                                        className="photo-thumbnail"
+                                    />
+                                    <button
+                                        className="remove-thumb-btn"
+                                        onClick={() => handleRemovePhoto(currentStep.id, index)}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
                         <PhotoUpload
-                            label={`Upload photo for ${currentStep.title}`}
+                            label={currentPhotos.length > 0 ? "Add another photo" : `Upload photo for ${currentStep.title}`}
                             onPhotoSelect={handlePhotoSelect}
                         />
                         <textarea
@@ -281,6 +445,9 @@ const InspectionPage = () => {
                 >
                     Access
                 </button>
+                <p style={{ marginTop: '20px', color: '#666', fontSize: '0.8rem' }}>
+                    Or scan a valid access QR code.
+                </p>
             </div>
         )
     }
@@ -302,7 +469,7 @@ const InspectionPage = () => {
                 </div>
                 <div className="inspection-controls">
                     <button onClick={handleBack} disabled={step === 0} className="btn-secondary">Back</button>
-                    <button onClick={handleNext} disabled={step === steps.length - 1} className="btn-primary">
+                    <button onClick={handleNext} className="btn-primary">
                         {step === steps.length - 1 ? 'Submit Inspection' : 'Next'}
                     </button>
                 </div>
