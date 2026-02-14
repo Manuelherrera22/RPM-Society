@@ -12,7 +12,7 @@ import cadillac from '../assets/hero-cadillac.jpg';
 const fleet = [
     {
         id: 1,
-        name: "Cadillac Escalade Platinum Sport ESV 2026",
+        name: "Escalade Platinum Sport ESV 2026",
         brand: "Cadillac",
         price: "400",
         speed: "5.9s",
