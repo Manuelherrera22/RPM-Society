@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^8.7.0",
     "@supabase/supabase-js": "^2.95.3",
+    "html2pdf.js": "^0.14.0",
     "lucide-react": "^0.563.0",
     "pg": "^8.18.0",
     "prop-types": "^15.8.1",

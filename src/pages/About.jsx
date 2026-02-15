@@ -22,39 +22,39 @@ const About = () => {
             </div>
 
             <div className="inspection-guarantee-section">
-                <h2 className="section-subtitle">Garantía de Transparencia</h2>
+                <h2 className="section-subtitle">Transparency Guarantee</h2>
                 <p className="section-intro">
-                    Para nosotros, su vehículo no es solo un activo, es una pieza de ingeniería que merece el máximo respeto.
-                    Nuestro sistema de <strong>Inspección Digital</strong> garantiza transparencia total.
+                    To us, your vehicle isn't just an asset—it's a masterpiece of engineering deserving the utmost respect.
+                    Our <strong>Digital Inspection System</strong> ensures total transparency.
                 </p>
 
                 <div className="process-grid">
                     <div className="process-card">
-                        <h3>1. Check-In (Salida)</h3>
-                        <p>Auditoría visual paso a paso.</p>
+                        <h3>1. Check-In (Departure)</h3>
+                        <p>Step-by-step visual audit.</p>
                         <ul>
-                            <li>Fotos de 4 ángulos + interior.</li>
-                            <li>Registro inmediato de detalles.</li>
-                            <li>Firma digital del cliente.</li>
-                            <li>Huella de tiempo y ubicación.</li>
+                            <li>4-angle exterior + interior photos.</li>
+                            <li>Immediate detail logging.</li>
+                            <li>Digital client signature.</li>
+                            <li>Time and location stamping.</li>
                         </ul>
                     </div>
                     <div className="process-card">
-                        <h3>2. Check-Out (Retorno)</h3>
-                        <p>Comparación instantánea.</p>
+                        <h3>2. Check-Out (Return)</h3>
+                        <p>Instant comparison.</p>
                         <ul>
-                            <li>Verificación contra fotos iniciales.</li>
-                            <li>Detección clara de cambios.</li>
-                            <li>Cierre de ciclo seguro.</li>
+                            <li>Verification against initial photos.</li>
+                            <li>Clear change detection.</li>
+                            <li>Secure cycle closure.</li>
                         </ul>
                     </div>
                 </div>
 
                 <div className="owner-benefit">
-                    <h3>Tranquilidad para el Dueño</h3>
+                    <h3>Peace of Mind for Owners</h3>
                     <p>
-                        Eliminamos las áreas grises. La tecnología actúa como juez imparcial, protegiendo su activo y asegurando que
-                        reciba su vehículo exactamente como lo entregó.
+                        We eliminate gray areas. Technology acts as an impartial judge, protecting your asset and ensuring
+                        you receive your vehicle exactly as you delivered it.
                     </p>
                 </div>
             </div>

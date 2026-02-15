@@ -1,6 +1,7 @@
-import React from 'react';
-import { ArrowUpRight, Gauge, Timer, DollarSign } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowUpRight, Gauge, Timer, Calendar } from 'lucide-react';
 import './FleetGrid.css';
+import BookingModal from './BookingModal';
 import lamborghini from '../assets/lamborghini.png';
 import ferrari from '../assets/ferrari.png';
 import mclaren from '../assets/mclaren.png';
@@ -77,6 +78,7 @@ const fleet = [
 
 const FleetGrid = ({ limit }) => {
     const displayFleet = limit ? fleet.slice(0, limit) : fleet;
+    const [selectedCar, setSelectedCar] = useState(null);
 
     return (
         <section className="fleet-section" id="fleet">
@@ -135,9 +137,49 @@ const FleetGrid = ({ limit }) => {
                                         </div>
                                     )}
 
-                                    <div className="card-footer-centered">
-                                        <a href="tel:+17872253222" className="view-details-link">
-                                            VIEW DETAILS <ArrowUpRight size={14} />
+                                    <div className="card-footer-buttons" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                                        <button
+                                            onClick={() => setSelectedCar(car)}
+                                            className="action-btn reserve-btn"
+                                            style={{
+                                                flex: 1,
+                                                background: '#d4af37',
+                                                color: 'black',
+                                                border: 'none',
+                                                padding: '12px',
+                                                fontWeight: 'bold',
+                                                cursor: 'pointer',
+                                                textTransform: 'uppercase',
+                                                letterSpacing: '1px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: '8px'
+                                            }}
+                                        >
+                                            <Calendar size={16} /> Reserve
+                                        </button>
+                                        <a
+                                            href="tel:+17872253222"
+                                            className="action-btn call-btn"
+                                            style={{
+                                                flex: 1,
+                                                background: 'transparent',
+                                                border: '1px solid rgba(255,255,255,0.2)',
+                                                color: 'white',
+                                                padding: '12px',
+                                                fontWeight: 'bold',
+                                                cursor: 'pointer',
+                                                textDecoration: 'none',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                textTransform: 'uppercase',
+                                                letterSpacing: '1px',
+                                                fontSize: '0.8rem'
+                                            }}
+                                        >
+                                            Call Now
                                         </a>
                                     </div>
                                 </>
@@ -150,6 +192,13 @@ const FleetGrid = ({ limit }) => {
                     </div>
                 ))}
             </div>
+
+            {selectedCar && (
+                <BookingModal
+                    vehicle={selectedCar}
+                    onClose={() => setSelectedCar(null)}
+                />
+            )}
         </section>
     );
 };

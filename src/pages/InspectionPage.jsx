@@ -19,6 +19,7 @@ const InspectionPage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [passcode, setPasscode] = useState('');
     const [tokenMetadata, setTokenMetadata] = useState(null); // { clientName, vehicleId, tokenId }
+    const [loading, setLoading] = useState(true);
 
     // Sequential Flow State
     const [inspectionStatus, setInspectionStatus] = useState('pending'); // pending, ready, completed
@@ -160,6 +161,7 @@ const InspectionPage = () => {
                     console.error("Invalid token:", error);
                 }
             }
+            setLoading(false);
         };
 
         validateToken();
@@ -417,10 +419,19 @@ const InspectionPage = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <div className="inspection-login" style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#111', color: '#fff' }}>
+                <div className="loading-spinner"></div>
+                <p>Validating Access...</p>
+            </div>
+        );
+    }
+
     if (!isAuthenticated) {
         return (
             <div className="inspection-login" style={{
-                height: '80vh',
+                height: '100vh',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',

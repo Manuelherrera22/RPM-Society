@@ -187,12 +187,12 @@ const AdminDashboard = () => {
                         <tbody>
                             {bookings.map(booking => (
                                 <tr key={booking.id}>
-                                    <td>{new Date(booking.preferred_date).toLocaleDateString()}</td>
+                                    <td>{new Date(booking.start_date || booking.created_at).toLocaleDateString()}</td>
                                     <td>
-                                        <strong>{booking.full_name}</strong><br />
-                                        <small>{booking.email}</small>
+                                        <strong>{booking.client_name}</strong><br />
+                                        <small>{booking.client_email}</small>
                                     </td>
-                                    <td>{booking.car_name}</td>
+                                    <td>{booking.car_model}</td>
                                     <td><span className={`status ${booking.status}`}>{booking.status}</span></td>
                                 </tr>
                             ))}
@@ -343,7 +343,25 @@ const AdminDashboard = () => {
                     <div className="modal-content" onClick={e => e.stopPropagation()}>
                         <button className="modal-close" onClick={() => setSelectedInspection(null)}>&times;</button>
 
-                        <h2 style={{ borderBottom: '2px solid #d4af37', paddingBottom: '10px', marginBottom: '20px' }}>Inspection Details</h2>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #d4af37', paddingBottom: '10px', marginBottom: '20px' }}>
+                            <h2 style={{ margin: 0 }}>Inspection Details</h2>
+                            <a
+                                href={`/report/${selectedInspection.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    background: '#d4af37',
+                                    color: 'black',
+                                    textDecoration: 'none',
+                                    padding: '8px 15px',
+                                    borderRadius: '4px',
+                                    fontWeight: 'bold',
+                                    fontSize: '0.9rem'
+                                }}
+                            >
+                                Print / Download PDF
+                            </a>
+                        </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
                             <div>
