@@ -14,10 +14,9 @@ const Hero = ({ onBookNow }) => {
 
             <div className="hero-content">
                 <span className="subtitle">Experience Excellence</span>
-                <h1 className="title">Drive the <span className="highlight">Extraordinary</span></h1>
+                <h1 className="title">Driven by presence. Defined by <span className="highlight">Luxury</span></h1>
                 <p className="description">
-                    Unleash the power of the world's most exclusive fleet.
-                    Defined by performance, designed for distinction.
+                    RPM Society delivers memorable luxury experiences. Whether for travel, events, or everyday life.
                 </p>
 
                 <div className="cta-group">
