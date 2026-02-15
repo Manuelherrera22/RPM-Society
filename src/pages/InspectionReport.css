@@ -245,3 +245,58 @@
         page-break-inside: avoid;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .report-container {
+        padding: 20px !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .report-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .report-meta p {
+        text-align: left;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .report-photo-wrapper {
+        width: 48%;
+        /* 2 cols */
+    }
+
+    .action-group {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .action-btn {
+        flex: 1 1 auto;
+        justify-content: center;
+        min-width: 100px;
+    }
+
+    .signature-box {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .report-photo-wrapper {
+        width: 100%;
+        /* 1 col */
+        margin-bottom: 10px;
+    }
+
+    .report-brand h1 {
+        font-size: 20px;
+    }
+}

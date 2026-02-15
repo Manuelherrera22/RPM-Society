@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { Download, Printer, Share2, Mail, Link as LinkIcon, Check, MessageCircle } from 'lucide-react';
+import { Printer, Share2, Mail, Link as LinkIcon, Check, MessageCircle } from 'lucide-react';
 import logo from '../assets/rpm-logo.jpg';
 import './InspectionReport.css';
 
@@ -10,7 +10,6 @@ const InspectionReport = () => {
     const [inspection, setInspection] = useState(null);
     const [loading, setLoading] = useState(true);
     const [copied, setCopied] = useState(false);
-    const [generatingPdf, setGeneratingPdf] = useState(false);
 
     const steps = [
         { id: 'start', title: 'Start' },
@@ -41,31 +40,6 @@ const InspectionReport = () => {
 
     const handlePrint = () => {
         window.print();
-    };
-
-    const handleDownloadPDF = () => {
-        setGeneratingPdf(true);
-        const element = document.querySelector('.report-container');
-        const opt = {
-            margin: [10, 10, 10, 10], // top, left, bottom, right
-            filename: `RPM_Inspection_${inspection.vehicle_id}_${new Date().toISOString().split('T')[0]}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        // Temporarily hide actions for PDF generation
-        const actions = document.querySelector('.report-actions');
-        if (actions) actions.style.display = 'none';
-
-        html2pdf().set(opt).from(element).save().then(() => {
-            setGeneratingPdf(false);
-            if (actions) actions.style.display = 'flex';
-        }).catch(err => {
-            console.error('PDF Generation Error:', err);
-            setGeneratingPdf(false);
-            if (actions) actions.style.display = 'flex';
-        });
     };
 
     const handleWhatsApp = () => {
@@ -109,17 +83,14 @@ const InspectionReport = () => {
             {/* Action Bar - Hidden when printing */}
             <div className="report-actions no-print">
                 <div className="action-group">
-                    <button onClick={handleDownloadPDF} className="action-btn primary" disabled={generatingPdf}>
-                        <Download size={16} /> {generatingPdf ? 'Saving...' : 'Download PDF'}
+                    <button onClick={handlePrint} className="action-btn primary">
+                        <Printer size={16} /> Print / Download PDF
                     </button>
                     <button onClick={handleWhatsApp} className="action-btn whatsapp-btn" style={{ background: '#25D366', color: 'white', borderColor: '#25D366' }}>
                         <MessageCircle size={16} /> WhatsApp
                     </button>
                     <button onClick={handleEmail} className="action-btn">
                         <Mail size={16} /> Email
-                    </button>
-                    <button onClick={handlePrint} className="action-btn">
-                        <Printer size={16} /> Print
                     </button>
                     <button onClick={handleCopyLink} className="action-btn">
                         {copied ? <Check size={16} /> : <LinkIcon size={16} />}
